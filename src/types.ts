@@ -1,6 +1,6 @@
 export type Answers = {
 	cwd: string;
-	author?: boolean;
+	author?: string;
 	bundler?: string;
 	component: string;
 	editor?: boolean;

@@ -43,6 +43,12 @@ export async function prompts({ cwd }: { cwd: string }): Promise<Answers> {
 
 	if(response1.component === 'npm') {
 		const question2 = [
+			{
+				type: 'select',
+				name: 'author',
+				message: 'Pick the author',
+				choices: ['daiyam', 'zokugun', 'skip'],
+			},
 			confirm({
 				name: 'test',
 				message: 'Add unit testing?',
@@ -62,12 +68,17 @@ export async function prompts({ cwd }: { cwd: string }): Promise<Answers> {
 			...response1,
 			...response2,
 			language: 'typescript',
-			author: true,
 			manager: 'npm',
 		};
 	}
 	else if(response1.component === 'vsx') {
 		const question2 = [
+			{
+				type: 'select',
+				name: 'author',
+				message: 'Pick the author',
+				choices: ['zokugun', 'skip'],
+			},
 			confirm({
 				name: 'test',
 				message: 'Add unit testing?',
@@ -93,7 +104,6 @@ export async function prompts({ cwd }: { cwd: string }): Promise<Answers> {
 			...response1,
 			...response2,
 			language: 'typescript',
-			author: true,
 			manager: 'npm',
 		};
 	}

@@ -12,8 +12,11 @@ export function configure(answers: Answers): Configuration {
 		if(component === 'npm') {
 			artifacts.push('@daiyam/npm-ts');
 
-			if(author) {
+			if(author === 'daiyam') {
 				artifacts.push('@daiyam/npm-daiyam');
+			}
+			else if(author === 'zokugun') {
+				artifacts.push('@daiyam/npm-zokugun');
 			}
 
 			if(test) {
@@ -23,7 +26,7 @@ export function configure(answers: Answers): Configuration {
 		else if(component === 'vsx') {
 			artifacts.push('@daiyam/vsx-ts');
 
-			if(author) {
+			if(author === 'zokugun') {
 				artifacts.push('@daiyam/vsx-zokugun');
 			}
 
