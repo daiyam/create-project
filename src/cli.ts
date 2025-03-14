@@ -27,6 +27,7 @@ program
 		let loading: undefined | ReturnType<typeof setInterval>;
 
 		try {
+			const start = Date.now();
 			const answers = await prompts(options);
 			const config = configure(answers);
 
@@ -54,7 +55,9 @@ program
 
 			clearInterval(loading);
 
-			logUpdate(`${c.green(c.symbols.check)} ${c.bold('Done!')}`);
+			const duration = Math.ceil((Date.now() - start) / 1000);
+
+			logUpdate(`🏁 ${c.bold('Done')} (in ${duration}s).`);
 		}
 		catch (error) {
 			clearInterval(loading);

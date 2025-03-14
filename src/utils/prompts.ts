@@ -11,7 +11,7 @@ function confirm(data: { name: string; message: string }): BooleanPromptOptions 
 	return {
 		type: 'confirm',
 		format(value) {
-			return value ? c.green('yes') : c.yellowBright('no');
+			return value ? c.cyan('Yes') : c.cyan('No');
 		},
 		...data,
 	};
