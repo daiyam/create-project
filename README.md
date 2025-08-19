@@ -16,7 +16,7 @@ With [node](http://nodejs.org) previously installed:
 
 	npm install -g @daiyam/create-project
 
-    new create @daiyam/project --cwd=~/my-projects
+    npm create @daiyam/project --cwd=~/my-projects
 
 Donations
 ---------
