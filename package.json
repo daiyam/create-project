@@ -15,6 +15,7 @@
 	"bugs": {
 		"url": "https://github.com/daiyam/create-project/issues"
 	},
+	"type": "module",
 	"bin": {
 		"create-project": "bin/create-project"
 	},
@@ -40,7 +41,7 @@
 		"commander": "^13.1.0",
 		"enquirer": "^2.4.1",
 		"execa": "^9.5.2",
-		"log-update": "^6.1.0",
+		"log-update": "^7.0.2",
 		"patch-package": "^8.0.0",
 		"trash": "^9.0.0"
 	},

@@ -7,12 +7,18 @@ export type Answers = {
 	language: string;
 	manager: string;
 	name: string;
-	test: boolean;
-	remove?: boolean;
+	test: string;
+	setupRepo?: boolean;
 };
 
 export type Configuration = {
+	packageName: string;
 	root: string;
 	artifacts: string[];
 	answers: Answers;
+	repository?: string;
+};
+
+export type CliOptions = {
+	cwd?: string;
 };
