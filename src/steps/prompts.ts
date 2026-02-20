@@ -91,7 +91,7 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 			},
 			confirm({
 				name: 'setupRepo',
-				message: 'Setup repository?',
+				message: 'Setup GitHub repository?',
 			}),
 		];
 

@@ -13,11 +13,22 @@ export function configure(answers: Answers): Configuration {
 		artifacts.push('@daiyam/lang-ts');
 
 		if(component === 'cli' || component === 'lib') {
-			const repoName = component === 'lib' ? `node-${name}` : name;
+			artifacts.push('@daiyam/npm', '@daiyam/npm-ts');
+
+			let repoName: string;
+
+			if(component === 'lib') {
+				repoName = `node-${name}`;
+
+				artifacts.push('@daiyam/npm-lib-ts');
+			}
+			else {
+				repoName = name;
+
+				artifacts.push('@daiyam/npm-cli-ts');
+			}
 
 			root = path.join(cwd, repoName);
-
-			artifacts.push('@daiyam/npm', '@daiyam/npm-ts');
 
 			if(author === 'daiyam') {
 				artifacts.push('@daiyam/npm-daiyam');

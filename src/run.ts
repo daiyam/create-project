@@ -4,6 +4,7 @@ import { execa, ExecaError } from 'execa';
 import logUpdate from 'log-update';
 import { cleanup } from './steps/cleanup.js';
 import { configure } from './steps/configure.js';
+import { confirm } from './steps/confirm.js';
 import { installArtifacts } from './steps/install-artifacts.js';
 import { installGit } from './steps/install-git.js';
 import { installManager } from './steps/install-manager.js';
@@ -23,6 +24,8 @@ export async function run(options: CliOptions): Promise<void> {
 		const answers = await prompts(options);
 		const config = configure(answers);
 
+		await confirm(config);
+
 		await cleanup(config);
 
 		logger.log('Creating project...');
@@ -35,10 +38,6 @@ export async function run(options: CliOptions): Promise<void> {
 
 		await installArtifacts(config);
 
-		logger.log('Installing dependencies...');
-
-		await installManager(config);
-
 		if(answers.setupRepo && config.repository) {
 			logger.log('Setup repository...');
 
@@ -46,6 +45,10 @@ export async function run(options: CliOptions): Promise<void> {
 
 			logger.newLine();
 		}
+
+		logger.log('Installing dependencies...');
+
+		await installManager(config);
 
 		if(answers.editor) {
 			await execa(EDITOR!, [config.root]);
