@@ -3,7 +3,7 @@ import enquirer, { type PromptOptions } from 'enquirer';
 import { type CliOptions, type Answers } from '../types.js';
 import { confirm } from '../utils/confirm.js';
 
-const EDITOR = process.env.EDITOR;
+const { EDITOR } = process.env;
 
 export async function prompts(options: CliOptions): Promise<Answers> {
 	const response1 = await enquirer.prompt<{ name: string; component: string }>([

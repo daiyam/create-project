@@ -14,7 +14,7 @@ import { writePackage } from './steps/write-package.js';
 import { type CliOptions } from './types.js';
 import * as logger from './utils/logger.js';
 
-const EDITOR = process.env.EDITOR;
+const { EDITOR } = process.env;
 
 export async function run(options: CliOptions): Promise<void> {
 	let loading: undefined | ReturnType<typeof setInterval>;
