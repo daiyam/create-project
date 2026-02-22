@@ -2,9 +2,9 @@ import path from 'node:path';
 import { type Answers, type Configuration } from '../types.js';
 
 export function configure(answers: Answers): Configuration {
-	const { cwd, name, language, component, author, test, bundler, setupRepo } = answers;
+	const { cwd, name, language, component, author, test, bundler } = answers;
 
-	const artifacts = ['@daiyam/lang-js'];
+	const artifacts = ['@daiyam/lang-js', '@daiyam/gh-issuehub'];
 	let root = path.join(cwd, name);
 	let packageName = name;
 	let repository: string | undefined;
@@ -82,10 +82,6 @@ export function configure(answers: Answers): Configuration {
 		else if(test === 'vitest') {
 			artifacts.push('@daiyam/test-vitest-ts');
 		}
-	}
-
-	if(setupRepo) {
-		artifacts.push('@daiyam/gh-issuehub');
 	}
 
 	return {
