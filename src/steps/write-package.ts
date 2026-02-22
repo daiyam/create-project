@@ -4,7 +4,7 @@ import { type Configuration } from '../types.js';
 
 export async function writePackage({ packageName, root }: Configuration): Promise<void> {
 	const filepath = path.join(root, 'package.json');
-	const exists = await fse.pathExists(root);
+	const exists = await fse.isExisting(root);
 
 	if(!exists) {
 		await fse.mkdirs(root);

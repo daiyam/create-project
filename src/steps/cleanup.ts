@@ -5,7 +5,7 @@ import { type Configuration } from '../types.js';
 import { confirm } from '../utils/confirm.js';
 
 export async function cleanup({ root }: Configuration): Promise<void> {
-	const exists = await fse.pathExists(root);
+	const exists = await fse.isExisting(root);
 
 	if(exists) {
 		const response = await enquirer.prompt<{ remove: boolean }>(confirm({
