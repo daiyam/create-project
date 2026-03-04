@@ -1,7 +1,6 @@
 import process from 'node:process';
-import enquirer, { type PromptOptions } from 'enquirer';
+import { confirm, enquirer, type PromptOptions } from '@zokugun/cli-utils';
 import { type CliOptions, type Answers } from '../types.js';
-import { confirm } from '../utils/confirm.js';
 
 const { EDITOR } = process.env;
 

@@ -1,7 +1,6 @@
 import process from 'node:process';
-import c from 'ansi-colors';
+import logger from '@zokugun/cli-utils/logger';
 import { execa, ExecaError } from 'execa';
-import logUpdate from 'log-update';
 import { cleanup } from './steps/cleanup.js';
 import { configure } from './steps/configure.js';
 import { confirm } from './steps/confirm.js';
@@ -12,15 +11,13 @@ import { prompts } from './steps/prompts.js';
 import { setupRepo } from './steps/setup-repo.js';
 import { writePackage } from './steps/write-package.js';
 import { type CliOptions } from './types.js';
-import * as logger from './utils/logger.js';
 
 const { EDITOR } = process.env;
 
 export async function run(options: CliOptions): Promise<void> {
-	let loading: undefined | ReturnType<typeof setInterval>;
-
 	try {
-		const start = Date.now();
+		logger.begin();
+
 		const answers = await prompts(options);
 		const config = configure(answers);
 
@@ -28,25 +25,25 @@ export async function run(options: CliOptions): Promise<void> {
 
 		await cleanup(config);
 
-		logger.log('Creating project...');
+		logger.info('Creating project...');
 
 		await writePackage(config);
 
 		await installGit(config);
 
-		logger.log('Installing packages...');
+		logger.info('Installing packages...');
 
 		await installArtifacts(config);
 
 		if(answers.setupRepo && config.repository) {
-			logger.log('Setup repository...');
+			logger.info('Setup repository...');
 
 			await setupRepo(config);
 
 			logger.newLine();
 		}
 
-		logger.log('Installing dependencies...');
+		logger.info('Installing dependencies...');
 
 		await installManager(config);
 
@@ -54,16 +51,10 @@ export async function run(options: CliOptions): Promise<void> {
 			await execa(EDITOR!, [config.root]);
 		}
 
-		clearInterval(loading);
-
-		const duration = Math.ceil((Date.now() - start) / 1000);
-
-		logger.finish(duration);
+		logger.finish();
 	}
 	catch (error) {
-		clearInterval(loading);
-
-		logUpdate(`${c.red(c.symbols.cross)} ${c.bold('Error!')}`);
+		logger.error('Error!');
 
 		if(error instanceof ExecaError) {
 			console.log(error.message);
