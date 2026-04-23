@@ -67,7 +67,7 @@ export async function run(options: CliOptions): Promise<void> {
 
 	const managerResult = await installManager(config);
 	if(managerResult.fails) {
-		logger.fatal(managerResult.error.message);
+		logger.error(managerResult.error.message);
 	}
 
 	if(answers.editor) {
