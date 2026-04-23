@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.4 | 2026-04-23
+- error on dependencies install isn't fatal
+
 ## v0.4.3 | 2026-04-23
 - split setup of `.git` and GitHub repository
 
