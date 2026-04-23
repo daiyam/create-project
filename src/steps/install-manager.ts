@@ -1,11 +1,11 @@
-import { execa } from 'execa';
 import { type Configuration } from '../types.js';
+import { exec, type ExecResult } from '../utils/exec.js';
 
-export async function installManager({ answers: { manager }, root }: Configuration): Promise<void> {
+export async function installManager({ answers: { manager }, root }: Configuration): ExecResult {
 	if(manager === 'yarn') {
-		await execa('yarn', ['install', '--silent'], { cwd: root });
+		return exec('yarn', ['install'], { cwd: root, stdio: 'inherit' });
 	}
 	else {
-		await execa('npm', ['install', '--silent'], { cwd: root });
+		return exec('npm', ['install'], { cwd: root, stdio: 'inherit' });
 	}
 }

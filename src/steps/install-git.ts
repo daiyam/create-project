@@ -1,6 +1,6 @@
-import { execa } from 'execa';
 import { type Configuration } from '../types.js';
+import { exec, type ExecResult } from '../utils/exec.js';
 
-export async function installGit({ root }: Configuration): Promise<void> {
-	await execa('git', ['init', '--quiet'], { cwd: root });
+export async function installGit({ root }: Configuration): ExecResult {
+	return exec('git', ['init', '--quiet'], { cwd: root });
 }

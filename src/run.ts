@@ -1,6 +1,5 @@
 import process from 'node:process';
 import logger from '@zokugun/cli-utils/logger';
-import { execa, ExecaError } from 'execa';
 import { cleanup } from './steps/cleanup.js';
 import { configure } from './steps/configure.js';
 import { confirm } from './steps/confirm.js';
@@ -12,61 +11,71 @@ import { setupGit } from './steps/setup-git.js';
 import { setupRepo } from './steps/setup-repo.js';
 import { writePackage } from './steps/write-package.js';
 import { type CliOptions } from './types.js';
+import { exec } from './utils/exec.js';
 
 const { EDITOR } = process.env;
 
 export async function run(options: CliOptions): Promise<void> {
-	try {
-		logger.begin();
+	logger.begin();
 
-		const answers = await prompts(options);
-		const config = configure(answers);
+	const answers = await prompts(options);
+	const config = configure(answers);
 
-		await confirm(config);
+	await confirm(config);
 
-		await cleanup(config);
+	await cleanup(config);
 
-		logger.info('Creating project...');
+	logger.info('Creating project...');
 
-		await writePackage(config);
+	await writePackage(config);
 
-		await installGit(config);
-
-		logger.info('Installing packages...');
-
-		await installArtifacts(config);
-
-		if(answers.setupGit && config.repository) {
-			logger.info('Setup .git...');
-
-			await setupGit(config);
-
-			logger.newLine();
-		}
-
-		if(answers.setupRepo && config.repository) {
-			logger.info('Setup GitHub repository...');
-
-			await setupRepo(config);
-
-			logger.newLine();
-		}
-
-		logger.info('Installing dependencies...');
-
-		await installManager(config);
-
-		if(answers.editor) {
-			await execa(EDITOR!, [config.root]);
-		}
-
-		logger.finish();
+	const gitResult = await installGit(config);
+	if(gitResult.fails) {
+		logger.fatal(gitResult.error.message);
 	}
-	catch (error) {
-		logger.error('Error!');
 
-		if(error instanceof ExecaError) {
-			console.log(error.message);
+	logger.info('Installing packages...');
+
+	const artifactResult = await installArtifacts(config);
+	if(artifactResult.fails) {
+		logger.fatal(artifactResult.error.message);
+	}
+
+	if(answers.setupGit && config.repository) {
+		logger.info('Setup .git...');
+
+		const result = await setupGit(config);
+		if(result.fails) {
+			logger.fatal(result.error.message);
+		}
+
+		logger.newLine();
+	}
+
+	if(answers.setupRepo && config.repository) {
+		logger.info('Setup GitHub repository...');
+
+		const result = await setupRepo(config);
+		if(result.fails) {
+			logger.fatal(result.error.message);
+		}
+
+		logger.newLine();
+	}
+
+	logger.info('Installing dependencies...');
+
+	const managerResult = await installManager(config);
+	if(managerResult.fails) {
+		logger.fatal(managerResult.error.message);
+	}
+
+	if(answers.editor) {
+		const result = await exec(EDITOR!, [config.root]);
+		if(result.fails) {
+			logger.fatal(result.error.message);
 		}
 	}
+
+	logger.finish();
 }
