@@ -8,6 +8,7 @@ export type Answers = {
 	manager: string;
 	name: string;
 	test: string;
+	setupGit?: boolean;
 	setupRepo?: boolean;
 };
 

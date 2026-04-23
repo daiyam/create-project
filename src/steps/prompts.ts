@@ -35,8 +35,12 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 				choices: ['mocha', 'vitest', 'skip'],
 			},
 			confirm({
+				name: 'setupGit',
+				message: 'Setup .git?',
+			}),
+			confirm({
 				name: 'setupRepo',
-				message: 'Setup repository?',
+				message: 'Setup GitHub repository?',
 			}),
 		];
 
@@ -88,6 +92,10 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 				message: 'Pick the bundler to use',
 				choices: ['skip', 'ncc'],
 			},
+			confirm({
+				name: 'setupGit',
+				message: 'Setup .git?',
+			}),
 			confirm({
 				name: 'setupRepo',
 				message: 'Setup GitHub repository?',

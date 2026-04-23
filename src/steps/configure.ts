@@ -4,7 +4,7 @@ import { type Answers, type Configuration } from '../types.js';
 export function configure(answers: Answers): Configuration {
 	const { cwd, name, language, component, author, test, bundler } = answers;
 
-	const artifacts = ['@daiyam/lang-js', '@daiyam/gh-issuehub'];
+	const artifacts = ['@daiyam/lang-js'];
 	let root = path.join(cwd, name);
 	let packageName = name;
 	let repository: string | undefined;
@@ -83,6 +83,8 @@ export function configure(answers: Answers): Configuration {
 			artifacts.push('@daiyam/test-vitest-ts');
 		}
 	}
+
+	artifacts.push('@daiyam/gh-issuehub');
 
 	return {
 		root,

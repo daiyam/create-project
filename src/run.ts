@@ -8,6 +8,7 @@ import { installArtifacts } from './steps/install-artifacts.js';
 import { installGit } from './steps/install-git.js';
 import { installManager } from './steps/install-manager.js';
 import { prompts } from './steps/prompts.js';
+import { setupGit } from './steps/setup-git.js';
 import { setupRepo } from './steps/setup-repo.js';
 import { writePackage } from './steps/write-package.js';
 import { type CliOptions } from './types.js';
@@ -35,8 +36,16 @@ export async function run(options: CliOptions): Promise<void> {
 
 		await installArtifacts(config);
 
+		if(answers.setupGit && config.repository) {
+			logger.info('Setup .git...');
+
+			await setupGit(config);
+
+			logger.newLine();
+		}
+
 		if(answers.setupRepo && config.repository) {
-			logger.info('Setup repository...');
+			logger.info('Setup GitHub repository...');
 
 			await setupRepo(config);
 
