@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.5 | 2026-04-24
+- pass variables when installing artifacts
+
 ## v0.4.4 | 2026-04-23
 - error on dependencies install isn't fatal
 
