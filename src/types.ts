@@ -17,9 +17,14 @@ export type Configuration = {
 	root: string;
 	artifacts: string[];
 	answers: Answers;
-	repository?: string;
+	repository?: Repository;
 };
 
 export type CliOptions = {
 	cwd?: string;
+};
+
+export type Repository = {
+	owner: string;
+	name: string;
 };

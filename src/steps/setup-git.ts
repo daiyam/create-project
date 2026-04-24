@@ -7,5 +7,5 @@ export async function setupGit({ root, repository }: Configuration): ExecResult 
 		return result;
 	}
 
-	return exec('git', ['remote', 'add', 'origin', `git@github.com:${repository}.git`], { cwd: root });
+	return exec('git', ['remote', 'add', 'origin', `git@github.com:${repository!.owner}/${repository!.name}.git`], { cwd: root });
 }

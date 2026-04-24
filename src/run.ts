@@ -16,7 +16,7 @@ import { exec } from './utils/exec.js';
 const { EDITOR } = process.env;
 
 export async function run(options: CliOptions): Promise<void> {
-	logger.begin();
+	logger.beginTimer();
 
 	const answers = await prompts(options);
 	const config = configure(answers);
@@ -77,5 +77,5 @@ export async function run(options: CliOptions): Promise<void> {
 		}
 	}
 
-	logger.finish();
+	logger.finishTimer();
 }

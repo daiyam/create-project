@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { type Answers, type Configuration } from '../types.js';
+import { type Repository, type Answers, type Configuration } from '../types.js';
 
 export function configure(answers: Answers): Configuration {
 	const { cwd, name, language, component, author, test, bundler } = answers;
@@ -7,7 +7,7 @@ export function configure(answers: Answers): Configuration {
 	const artifacts = ['@daiyam/lang-js'];
 	let root = path.join(cwd, name);
 	let packageName = name;
-	let repository: string | undefined;
+	let repository: Repository | undefined;
 
 	if(language === 'typescript') {
 		artifacts.push('@daiyam/lang-ts');
@@ -36,7 +36,10 @@ export function configure(answers: Answers): Configuration {
 				root = root.replace('AUTHOR', author);
 
 				packageName = `@daiyam/${name}`;
-				repository = `daiyam/${repoName}`;
+				repository = {
+					owner: 'daiyam',
+					name: repoName,
+				};
 			}
 			else if(author === 'zokugun') {
 				artifacts.push('@daiyam/npm-zokugun');
@@ -44,7 +47,10 @@ export function configure(answers: Answers): Configuration {
 				root = root.replace('AUTHOR', author);
 
 				packageName = `@zokugun/${name}`;
-				repository = `zokugun/${repoName}`;
+				repository = {
+					owner: 'zokugun',
+					name: repoName,
+				};
 			}
 			else {
 				root = root.replace('/AUTHOR', '');
@@ -62,7 +68,10 @@ export function configure(answers: Answers): Configuration {
 
 				root = root.replace('AUTHOR', author);
 
-				repository = `zokugun/${repoName}`;
+				repository = {
+					owner: 'zokugun',
+					name: repoName,
+				};
 			}
 			else {
 				root = root.replace('/AUTHOR', '');
