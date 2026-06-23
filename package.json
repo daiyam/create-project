@@ -72,5 +72,8 @@
 			"undici": "7.28.0"
 		}
 	},
+	"allowScripts": {
+		"@zokugun/cli-utils": true
+	},
 	"keywords": []
 }
