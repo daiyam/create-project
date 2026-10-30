@@ -69,7 +69,7 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 			cwd: cwd ?? '',
 			...response2,
 			language: 'typescript',
-			manager: 'npm',
+			// manager: 'npm',
 		};
 	}
 	else if(response1.component === 'vsx') {
@@ -127,7 +127,7 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 			cwd: cwd ?? '',
 			...response2,
 			language: 'typescript',
-			manager: 'npm',
+			// manager: 'npm',
 		};
 	}
 	else {
@@ -150,12 +150,12 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 				message: 'Pick unit testing',
 				choices: ['mocha', 'vitest', 'skip'],
 			},
-			{
-				type: 'select',
-				name: 'manager',
-				message: 'Pick the package manager',
-				choices: ['npm', 'yarn'],
-			},
+			// {
+			// 	type: 'select',
+			// 	name: 'manager',
+			// 	message: 'Pick the package manager',
+			// 	choices: ['npm', 'yarn'],
+			// },
 		];
 
 		if(EDITOR) {
@@ -165,7 +165,7 @@ export async function prompts(options: CliOptions): Promise<Answers> {
 			}));
 		}
 
-		const response2 = await enquirer.prompt<{ cwd: string; language: string; test: string; manager: string; editor?: boolean }>(question2);
+		const response2 = await enquirer.prompt<{ cwd: string; language: string; test: string; editor?: boolean }>(question2);
 
 		return { ...response1, ...response2 };
 	}

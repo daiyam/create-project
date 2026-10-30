@@ -19,7 +19,7 @@ export async function run(options: CliOptions): Promise<void> {
 	logger.beginTimer();
 
 	const answers = await prompts(options);
-	const config = configure(answers);
+	const config = configure(answers, options);
 
 	await confirm(config);
 
@@ -38,7 +38,7 @@ export async function run(options: CliOptions): Promise<void> {
 
 	const artifactResult = await installArtifacts(config);
 	if(artifactResult.fails) {
-		logger.fatal(artifactResult.error.message);
+		logger.fatal(artifactResult.error);
 	}
 
 	if(answers.setupGit && config.repository) {
@@ -67,7 +67,7 @@ export async function run(options: CliOptions): Promise<void> {
 
 	const managerResult = await installManager(config);
 	if(managerResult.fails) {
-		logger.error(managerResult.error.message);
+		logger.error(managerResult.error);
 	}
 
 	if(answers.editor) {

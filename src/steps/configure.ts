@@ -1,7 +1,8 @@
-import path from 'node:path';
-import { type Repository, type Answers, type Configuration } from '../types.js';
+import type { Answers, Configuration, CliOptions, Repository } from '../types.js';
 
-export function configure(answers: Answers): Configuration {
+import path from 'node:path';
+
+export function configure(answers: Answers, options: CliOptions): Configuration {
 	const { cwd, name, language, component, author, test, bundler } = answers;
 
 	const artifacts = ['@daiyam/lang-js'];
@@ -13,25 +14,25 @@ export function configure(answers: Answers): Configuration {
 		artifacts.push('@daiyam/lang-ts');
 
 		if(component === 'cli' || component === 'lib') {
-			artifacts.push('@daiyam/npm', '@daiyam/npm-ts');
+			const npmArtifacts = ['@daiyam/npm', '@daiyam/npm-ts'];
 
 			let repoName: string;
 
 			if(component === 'lib') {
 				repoName = `node-${name}`;
 
-				artifacts.push('@daiyam/npm-lib-ts');
+				npmArtifacts.push('@daiyam/npm-lib-ts');
 			}
 			else {
 				repoName = name;
 
-				artifacts.push('@daiyam/npm-cli-ts');
+				npmArtifacts.push('@daiyam/npm-cli-ts');
 			}
 
 			root = path.join(cwd, repoName);
 
 			if(author === 'daiyam') {
-				artifacts.push('@daiyam/npm-daiyam');
+				npmArtifacts.unshift('@daiyam/npm-daiyam');
 
 				root = root.replace('AUTHOR', author);
 
@@ -42,7 +43,7 @@ export function configure(answers: Answers): Configuration {
 				};
 			}
 			else if(author === 'zokugun') {
-				artifacts.push('@daiyam/npm-zokugun');
+				npmArtifacts.unshift('@daiyam/npm-zokugun');
 
 				root = root.replace('AUTHOR', author);
 
@@ -55,6 +56,8 @@ export function configure(answers: Answers): Configuration {
 			else {
 				root = root.replace('/AUTHOR', '');
 			}
+
+			artifacts.push(...npmArtifacts);
 		}
 		else if(component === 'vsx') {
 			const repoName = `vscode-${name}`;
@@ -96,10 +99,12 @@ export function configure(answers: Answers): Configuration {
 	artifacts.push('@daiyam/gh-issuehub');
 
 	return {
-		root,
-		artifacts,
 		answers,
+		artifacts,
 		packageName,
+		install: options.install ?? true,
+		minReleaseAge: options.minReleaseAge,
 		repository,
+		root,
 	};
 }

@@ -5,7 +5,7 @@ export type Answers = {
 	component: string;
 	editor?: boolean;
 	language: string;
-	manager: string;
+	// manager: string;
 	name: string;
 	test: string;
 	setupGit?: boolean;
@@ -13,15 +13,19 @@ export type Answers = {
 };
 
 export type Configuration = {
-	packageName: string;
-	root: string;
-	artifacts: string[];
 	answers: Answers;
+	artifacts: string[];
+	install: boolean;
+	minReleaseAge?: number;
+	packageName: string;
 	repository?: Repository;
+	root: string;
 };
 
 export type CliOptions = {
 	cwd?: string;
+	install?: boolean;
+	minReleaseAge?: number;
 };
 
 export type Repository = {

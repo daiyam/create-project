@@ -1,11 +1,28 @@
-import { type Configuration } from '../types.js';
-import { exec, type ExecResult } from '../utils/exec.js';
+import type { AsyncDResult } from '@zokugun/xtry';
+import type { Configuration } from '../types.js';
 
-export async function installManager({ answers: { manager }, root }: Configuration): ExecResult {
-	if(manager === 'yarn') {
-		return exec('yarn', ['install'], { cwd: root, stdio: 'inherit' });
+import { logger } from '@zokugun/cli-utils';
+import { err, OK, stringifyError } from '@zokugun/xtry';
+
+import { exec } from '../utils/exec.js';
+
+export async function installManager({ root, install, minReleaseAge }: Configuration): AsyncDResult {
+	const args = ['install'];
+
+	if(typeof minReleaseAge === 'number') {
+		args.push('--min-release-age', String(Math.ceil(minReleaseAge / 24)));
+	}
+
+	if(install) {
+		const result = await exec('npm', args, { cwd: root, stdio: 'inherit' });
+
+		if(result.fails) {
+			return err(stringifyError(result.error));
+		}
 	}
 	else {
-		return exec('npm', ['install'], { cwd: root, stdio: 'inherit' });
+		logger.info(['npm', ...args].join(' '));
 	}
+
+	return OK;
 }
