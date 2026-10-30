@@ -3,7 +3,8 @@
 		"commitlint/cli",
 		"@commitlint/config-conventional",
 		"lint-staged",
-		"xo"
+		"katex",
+		"release-it"
 	],
 	"force": true,
 	"includeLocked": true,
